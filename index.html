@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Engine Workbench</title>
+    <!-- Google Fonts for premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Sidebar / Toolbox (Left) -->
+        <aside class="sidebar workbench">
+            <header>
+                <h1>Workbench</h1>
+                <p>Engine Testing Environment</p>
+            </header>
+
+            <section class="control-group">
+                <h3>Match Setup</h3>
+                <div class="form-row">
+                    <label>White</label>
+                    <select id="white-player-select">
+                        <option value="human">Human</option>
+                        <option value="random">Random Engine</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Black</label>
+                    <select id="black-player-select">
+                        <option value="random">Random Engine</option>
+                        <option value="human">Human</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Time Control</label>
+                    <select id="time-control-select">
+                        <option value="infinite">Infinite / Depth 4</option>
+                        <option value="1000">1s per move</option>
+                    </select>
+                </div>
+                <button id="btn-new-game" class="btn primary"><i class="fa-solid fa-play"></i> New Match</button>
+            </section>
+
+            <section class="control-group">
+                <h3>Engine Controls</h3>
+                <div class="btn-group">
+                    <button id="btn-toggle-engine" class="btn secondary"><i class="fa-solid fa-pause"></i> Pause</button>
+                    <button id="btn-force-move" class="btn secondary" title="Force AI to play immediately"><i class="fa-solid fa-forward-step"></i> Force Move</button>
+                </div>
+            </section>
+
+            <section class="control-group">
+                <h3>Position (FEN)</h3>
+                <textarea id="fen-input" rows="3" placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"></textarea>
+                <div class="btn-group">
+                    <button id="btn-load-fen" class="btn secondary">Load FEN</button>
+                    <button id="btn-copy-fen" class="btn secondary">Copy</button>
+                </div>
+            </section>
+
+            <section class="control-group">
+                <h3>Developer Tools</h3>
+                <div class="form-row">
+                    <label>Perft Depth</label>
+                    <input type="number" id="perft-depth" value="3" min="1" max="6">
+                </div>
+                <button id="btn-run-perft" class="btn danger"><i class="fa-solid fa-stopwatch"></i> Run Perft</button>
+                <div class="console-output" id="dev-console">
+                    > System initialized...
+                </div>
+            </section>
+
+            <section class="control-group">
+                <h3>PGN Export</h3>
+                <textarea id="pgn-output" rows="3" readonly></textarea>
+                <button id="btn-copy-pgn" class="btn secondary">Copy PGN</button>
+            </section>
+        </aside>
+
+        <!-- Main Board Area (Center) -->
+        <main class="board-container">
+            <div class="status-panel top-status">
+                <div class="player-info">
+                    <i class="fa-solid fa-robot"></i> 
+                    <span id="black-player-name">Engine (Black)</span>
+                </div>
+                <div class="eval-bar-horizontal">
+                    <div class="eval-fill" id="eval-fill" style="width: 50%;"></div>
+                </div>
+                <div class="captured-pieces" id="black-captured"></div>
+            </div>
+
+            <!-- The chessboard grid -->
+            <div id="chessboard" class="chessboard">
+                <!-- Squares injected by JS -->
+            </div>
+
+            <div class="status-panel bottom-status">
+                <div class="player-info">
+                    <i class="fa-solid fa-user"></i> 
+                    <span id="white-player-name">Human (White)</span>
+                </div>
+                <div class="captured-pieces" id="white-captured"></div>
+            </div>
+        </main>
+
+        <!-- Move History (Right) -->
+        <aside class="sidebar history-panel">
+            <header>
+                <h1>Move History</h1>
+            </header>
+            
+            <div class="move-list-container" id="move-list-container">
+                <table class="move-table">
+                    <tbody id="move-list-body">
+                        <!-- e.g. <tr><td class="move-num">1</td><td class="move white active">e4</td><td class="move black">e5</td></tr> -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="history-controls">
+                <button class="btn secondary" id="btn-hist-start" title="Go to Start"><i class="fa-solid fa-backward-fast"></i></button>
+                <button class="btn secondary" id="btn-hist-prev" title="Previous Move"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="btn secondary" id="btn-hist-next" title="Next Move"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="btn secondary" id="btn-hist-end" title="Go to End"><i class="fa-solid fa-forward-fast"></i></button>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Chess.js library for rule validation & game state -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+    <!-- Our Application logic (Loaded sequentially for file:// support) -->
+    <script src="js/Player.js"></script>
+    <script src="js/players/HumanPlayer.js"></script>
+    <script src="js/players/RandomEngine.js"></script>
+    <script src="js/players/WorkerEngineProxy.js"></script>
+    <script src="js/ui/ChessBoardUI.js"></script>
+    <script src="js/ui/SidebarControls.js"></script>
+    <script src="js/ui/HistoryControls.js"></script>
+    <script src="js/tools/FenPgnManager.js"></script>
+    <script src="js/tools/PerftValidator.js"></script>
+    <script src="js/GameController.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
