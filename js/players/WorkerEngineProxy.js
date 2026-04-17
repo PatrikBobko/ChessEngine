@@ -55,8 +55,8 @@ class WorkerEngineProxy extends Player {
             this.worker.postMessage(`position fen ${game.fen()}`);
             
             // In a real UCI setup, we'd pass true wtime/btime based on GameController
-            const maxDepth = document.getElementById('time-control-select').value === 'infinite' ? 'depth 4' : 'movetime 1000';
-            this.worker.postMessage(`go ${maxDepth}`);
+            const timeMs = document.getElementById('time-control-select').value || '1000';
+            this.worker.postMessage(`go movetime ${timeMs}`);
         });
     }
 

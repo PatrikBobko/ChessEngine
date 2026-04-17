@@ -14,14 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const perftValidator = new PerftValidator(gameCtrl);
 
     // 4. Wire up events
+    // Helper: create a player from a dropdown value and color
+    const createPlayer = (type, color) => {
+        switch (type) {
+            case 'human':    return new HumanPlayer(color, boardUi);
+            case 'naive':    return new NaiveEngine(color);
+            case 'advanced': return new AdvancedEngine(color);
+            case 'random':
+            default:         return new RandomEngine(color);
+        }
+    };
+
     sidebar.onNewGameRequest = (config) => {
-        const whitePlayer = config.white === 'human' 
-            ? new HumanPlayer('w', boardUi) 
-            : new RandomEngine('w');
-            
-        const blackPlayer = config.black === 'human'
-            ? new HumanPlayer('b', boardUi)
-            : new RandomEngine('b');
+        const whitePlayer = createPlayer(config.white, 'w');
+        const blackPlayer = createPlayer(config.black, 'b');
 
         sidebar.updateNames(whitePlayer.name, blackPlayer.name);
         gameCtrl.setPlayers(whitePlayer, blackPlayer);
@@ -53,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.updateEval(0);
     };
 
-    // 5. Start initial game (Human vs Engine)
-    sidebar.updateNames("Human", "Random Engine");
-    gameCtrl.setPlayers(new HumanPlayer('w', boardUi), new RandomEngine('b'));
+    // 5. Start initial game (Human vs Advanced Engine)
+    sidebar.updateNames("Human", "Advanced Engine");
+    gameCtrl.setPlayers(new HumanPlayer('w', boardUi), new AdvancedEngine('b'));
     gameCtrl.startNewGame();
 });

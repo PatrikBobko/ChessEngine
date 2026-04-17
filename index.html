@@ -27,20 +27,24 @@
                     <select id="white-player-select">
                         <option value="human">Human</option>
                         <option value="random">Random Engine</option>
+                        <option value="naive">Naive Engine</option>
+                        <option value="advanced">Advanced Engine</option>
                     </select>
                 </div>
                 <div class="form-row">
                     <label>Black</label>
                     <select id="black-player-select">
                         <option value="random">Random Engine</option>
+                        <option value="naive">Naive Engine</option>
+                        <option value="advanced" selected>Advanced Engine</option>
                         <option value="human">Human</option>
                     </select>
                 </div>
                 <div class="form-row">
                     <label>Time Control</label>
                     <select id="time-control-select">
-                        <option value="infinite">Infinite / Depth 4</option>
                         <option value="1000">1s per move</option>
+                        <option value="4000">4s per move</option>
                     </select>
                 </div>
                 <button id="btn-new-game" class="btn primary"><i class="fa-solid fa-play"></i> New Match</button>
@@ -140,6 +144,8 @@
     <script src="js/Player.js"></script>
     <script src="js/players/HumanPlayer.js"></script>
     <script src="js/players/RandomEngine.js"></script>
+    <script src="js/players/NaiveEngine.js"></script>
+    <script src="js/players/AdvancedEngine.js"></script>
     <script src="js/players/WorkerEngineProxy.js"></script>
     <script src="js/ui/ChessBoardUI.js"></script>
     <script src="js/ui/SidebarControls.js"></script>
