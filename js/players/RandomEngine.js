@@ -9,8 +9,10 @@ class RandomEngine extends Player {
     async think(game) {
         this._aborted = false;
         
-        // Artificial delay to simulate "thinking" to be visible to human
-        await new Promise(r => setTimeout(r, 500));
+        // Skip delay in tournament mode for speed
+        if (!this.tournamentMode) {
+            await new Promise(r => setTimeout(r, 500));
+        }
         
         if (this._aborted) return null;
 

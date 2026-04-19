@@ -29,6 +29,10 @@
                         <option value="random">Random Engine</option>
                         <option value="naive">Naive Engine</option>
                         <option value="advanced">Advanced Engine</option>
+                        <option value="sf-d1">Stockfish (d1)</option>
+                        <option value="sf-d3">Stockfish (d3)</option>
+                        <option value="sf-d5">Stockfish (d5)</option>
+                        <option value="sf-d8">Stockfish (d8)</option>
                     </select>
                 </div>
                 <div class="form-row">
@@ -37,6 +41,10 @@
                         <option value="random">Random Engine</option>
                         <option value="naive">Naive Engine</option>
                         <option value="advanced" selected>Advanced Engine</option>
+                        <option value="sf-d1">Stockfish (d1)</option>
+                        <option value="sf-d3">Stockfish (d3)</option>
+                        <option value="sf-d5">Stockfish (d5)</option>
+                        <option value="sf-d8">Stockfish (d8)</option>
                         <option value="human">Human</option>
                     </select>
                 </div>
@@ -56,6 +64,7 @@
                     <button id="btn-toggle-engine" class="btn secondary"><i class="fa-solid fa-pause"></i> Pause</button>
                     <button id="btn-force-move" class="btn secondary" title="Force AI to play immediately"><i class="fa-solid fa-forward-step"></i> Force Move</button>
                 </div>
+                <button id="btn-tournament" class="btn primary" style="margin-top: 0.5rem;"><i class="fa-solid fa-trophy"></i> Tournament</button>
             </section>
 
             <section class="control-group">
@@ -146,12 +155,15 @@
     <script src="js/players/RandomEngine.js"></script>
     <script src="js/players/NaiveEngine.js"></script>
     <script src="js/players/AdvancedEngine.js"></script>
+    <script src="js/players/StockfishEngine.js"></script>
     <script src="js/players/WorkerEngineProxy.js"></script>
     <script src="js/ui/ChessBoardUI.js"></script>
     <script src="js/ui/SidebarControls.js"></script>
     <script src="js/ui/HistoryControls.js"></script>
+    <script src="js/ui/TournamentModal.js"></script>
     <script src="js/tools/FenPgnManager.js"></script>
     <script src="js/tools/PerftValidator.js"></script>
+    <script src="js/tools/Tournament.js"></script>
     <script src="js/GameController.js"></script>
     <script src="js/main.js"></script>
 </body>

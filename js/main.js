@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'human':    return new HumanPlayer(color, boardUi);
             case 'naive':    return new NaiveEngine(color);
             case 'advanced': return new AdvancedEngine(color);
+            case 'sf-d1':    return new StockfishEngine(color, 1, 'Stockfish (d1)');
+            case 'sf-d3':    return new StockfishEngine(color, 3, 'Stockfish (d3)');
+            case 'sf-d5':    return new StockfishEngine(color, 5, 'Stockfish (d5)');
+            case 'sf-d8':    return new StockfishEngine(color, 8, 'Stockfish (d8)');
             case 'random':
             default:         return new RandomEngine(color);
         }
@@ -59,7 +63,23 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebar.updateEval(0);
     };
 
-    // 5. Start initial game (Human vs Advanced Engine)
+    // 5. Tournament setup
+    const engineFactories = [
+        { name: 'Random',          factory: (c) => new RandomEngine(c) },
+        { name: 'Naive',           factory: (c) => new NaiveEngine(c) },
+        { name: 'Advanced',        factory: (c) => new AdvancedEngine(c) },
+        { name: 'Stockfish (d1)',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (d1)') },
+        { name: 'Stockfish (d3)',  factory: (c) => new StockfishEngine(c, 3, 'Stockfish (d3)') },
+        { name: 'Stockfish (d5)',  factory: (c) => new StockfishEngine(c, 5, 'Stockfish (d5)') },
+    ];
+
+    const tournamentModal = new TournamentModal(engineFactories);
+
+    document.getElementById('btn-tournament').addEventListener('click', () => {
+        tournamentModal.show();
+    });
+
+    // 6. Start initial game (Human vs Advanced Engine)
     sidebar.updateNames("Human", "Advanced Engine");
     gameCtrl.setPlayers(new HumanPlayer('w', boardUi), new AdvancedEngine('b'));
     gameCtrl.startNewGame();

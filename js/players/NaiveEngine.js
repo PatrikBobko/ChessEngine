@@ -115,8 +115,10 @@ class NaiveEngine extends Player {
     async think(game) {
         this._aborted = false;
 
-        // Small delay so the UI can repaint between moves
-        await new Promise(r => setTimeout(r, 200));
+        // Skip delay in tournament mode for speed
+        if (!this.tournamentMode) {
+            await new Promise(r => setTimeout(r, 200));
+        }
         if (this._aborted) return null;
 
         const moves = game.moves({ verbose: true });

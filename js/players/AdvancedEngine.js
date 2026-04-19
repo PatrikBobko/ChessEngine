@@ -390,19 +390,25 @@ class AdvancedEngine extends Player {
         this._aborted = false;
         this._timeUp = false;
 
-        // Read time limit from the dropdown (ms value)
-        const tcSelect = document.getElementById('time-control-select');
-        this.timeLimitMs = tcSelect ? parseInt(tcSelect.value, 10) : 1000;
-
-        // Cap depth based on time budget (chess.js is slow — realistic limits)
-        this.maxDepth = this.timeLimitMs >= 4000 ? 5 : 4;
+        if (this.tournamentMode) {
+            // Tournament mode: fixed short time, no UI yield
+            this.timeLimitMs = 200;
+            this.maxDepth = 4;
+        } else {
+            // Normal mode: read from dropdown
+            const tcSelect = document.getElementById('time-control-select');
+            this.timeLimitMs = tcSelect ? parseInt(tcSelect.value, 10) : 1000;
+            this.maxDepth = this.timeLimitMs >= 4000 ? 5 : 4;
+        }
 
         // Don't clear TT between moves — it persists across the game
         // Only clear if it's too large
         if (this.ttable.size > this.TT_MAX_SIZE) this.ttable.clear();
 
         // Yield to the event loop so the UI can repaint before we block
-        await new Promise(r => setTimeout(r, 10));
+        if (!this.tournamentMode) {
+            await new Promise(r => setTimeout(r, 10));
+        }
         if (this._aborted) return null;
 
         const best = this.iterativeDeepening(game);
