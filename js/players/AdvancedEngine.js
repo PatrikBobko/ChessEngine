@@ -359,8 +359,13 @@ class AdvancedEngine extends Player {
 
                 if (this._aborted || this._timeUp) break;
 
-                if (score > alpha) {
-                    alpha = score;
+                // Add tiny random noise (±5 cp) at root to break determinism.
+                // This ensures varied play while staying near-optimal.
+                const noise = (Math.random() - 0.5) * 10;
+                const adjScore = score + noise;
+
+                if (adjScore > alpha) {
+                    alpha = adjScore;
                     depthBest = move;
                 }
             }
