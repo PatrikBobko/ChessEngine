@@ -351,6 +351,7 @@ class AdvancedEngine extends Player {
             let alpha = -Infinity;
             let beta  =  Infinity;
             let depthBest = null;
+            let bestRootScore = -Infinity;
 
             for (const move of ordered) {
                 game.move(move.san);
@@ -359,13 +360,14 @@ class AdvancedEngine extends Player {
 
                 if (this._aborted || this._timeUp) break;
 
-                // Add tiny random noise (±5 cp) at root to break determinism.
-                // This ensures varied play while staying near-optimal.
-                const noise = (Math.random() - 0.5) * 10;
-                const adjScore = score + noise;
+                // Update alpha normally for correct pruning
+                if (score > alpha) alpha = score;
 
-                if (adjScore > alpha) {
-                    alpha = adjScore;
+                // Use noise only for *move selection*, not for pruning.
+                // ±5 cp jitter picks a different move among near-equal candidates.
+                const selectionScore = score + (Math.random() - 0.5) * 10;
+                if (selectionScore > bestRootScore) {
+                    bestRootScore = selectionScore;
                     depthBest = move;
                 }
             }
