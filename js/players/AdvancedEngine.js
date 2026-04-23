@@ -350,8 +350,7 @@ class AdvancedEngine extends Player {
 
             let alpha = -Infinity;
             let beta  =  Infinity;
-            let depthBest = null;
-            let bestRootScore = -Infinity;
+            const rootScores = [];  // collect {move, score} for variety
 
             for (const move of ordered) {
                 game.move(move.san);
@@ -360,21 +359,16 @@ class AdvancedEngine extends Player {
 
                 if (this._aborted || this._timeUp) break;
 
-                // Update alpha normally for correct pruning
                 if (score > alpha) alpha = score;
-
-                // Use noise only for *move selection*, not for pruning.
-                // ±5 cp jitter picks a different move among near-equal candidates.
-                const selectionScore = score + (Math.random() - 0.5) * 10;
-                if (selectionScore > bestRootScore) {
-                    bestRootScore = selectionScore;
-                    depthBest = move;
-                }
+                rootScores.push({ move, score });
             }
 
             // Only accept results from fully completed iterations
-            if (!this._aborted && !this._timeUp && depthBest) {
-                bestMove = depthBest;
+            if (!this._aborted && !this._timeUp && rootScores.length > 0) {
+                // Pick randomly among moves within 5cp of the best
+                const best = Math.max(...rootScores.map(r => r.score));
+                const candidates = rootScores.filter(r => r.score >= best - 5);
+                bestMove = candidates[Math.floor(Math.random() * candidates.length)].move;
             }
 
             const timeUsed = Date.now() - this.searchStartTime;
