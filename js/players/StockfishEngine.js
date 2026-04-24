@@ -15,9 +15,10 @@
  *   - Depth 8  ≈  ~2200 ELO  (strong)
  */
 class StockfishEngine extends Player {
-    constructor(color, depth = 5, label) {
+    constructor(color, depth = 5, label, skillLevel = 20) {
         super(color);
         this.depth = depth;
+        this.skillLevel = skillLevel;
         this.name = label || `Stockfish (d${depth})`;
         this.isHuman = false;
 
@@ -72,6 +73,12 @@ class StockfishEngine extends Player {
 
         // Now bind the real message handler
         this.worker.onmessage = this._handleMessage.bind(this);
+
+        // Set Skill Level (0=weakest, 20=strongest)
+        if (this.skillLevel < 20) {
+            this.worker.postMessage(`setoption name Skill Level value ${this.skillLevel}`);
+        }
+
         this.worker.postMessage('isready');
     }
 

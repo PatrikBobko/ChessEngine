@@ -350,7 +350,7 @@ class AdvancedEngine extends Player {
 
             let alpha = -Infinity;
             let beta  =  Infinity;
-            const rootScores = [];  // collect {move, score} for variety
+            let depthBest = null;
 
             for (const move of ordered) {
                 game.move(move.san);
@@ -359,16 +359,15 @@ class AdvancedEngine extends Player {
 
                 if (this._aborted || this._timeUp) break;
 
-                if (score > alpha) alpha = score;
-                rootScores.push({ move, score });
+                if (score > alpha) {
+                    alpha = score;
+                    depthBest = move;
+                }
             }
 
             // Only accept results from fully completed iterations
-            if (!this._aborted && !this._timeUp && rootScores.length > 0) {
-                // Pick randomly among moves within 5cp of the best
-                const best = Math.max(...rootScores.map(r => r.score));
-                const candidates = rootScores.filter(r => r.score >= best - 5);
-                bestMove = candidates[Math.floor(Math.random() * candidates.length)].move;
+            if (!this._aborted && !this._timeUp && depthBest) {
+                bestMove = depthBest;
             }
 
             const timeUsed = Date.now() - this.searchStartTime;
