@@ -43,6 +43,7 @@ class TournamentModal {
                                     <label class="engine-checkbox">
                                         <input type="checkbox" value="${i}" checked>
                                         <span>${e.name}</span>
+                                        ${e.elo ? `<span class="elo-badge">${e.elo}</span>` : ''}
                                     </label>
                                 `).join('')}
                             </div>
@@ -59,7 +60,9 @@ class TournamentModal {
                         <div class="tournament-note">
                             <i class="fa-solid fa-circle-info"></i>
                             Colors alternate each game for fairness. Engines run at tournament speed
-                            (no delays, shorter time limits). Stockfish engines run at fixed depth.
+                            (no delays, shorter time limits). Stockfish engines use
+                            <strong>stockfish.js v10</strong> (ASM.js, ~2018 era) at fixed depth.
+                            ELO estimates are rough — use tournament results for accurate relative ratings.
                         </div>
 
                         <button class="btn primary tournament-start" id="tournament-start">

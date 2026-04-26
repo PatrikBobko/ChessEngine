@@ -531,6 +531,17 @@ textarea {
     height: 16px;
 }
 
+.elo-badge {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
 .games-slider-row {
     display: flex;
     align-items: center;

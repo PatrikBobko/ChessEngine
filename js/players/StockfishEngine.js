@@ -5,14 +5,19 @@
  * bypassing the file:// cross-origin restriction. Communicates via
  * standard UCI protocol.
  *
- * Uses stockfish.js v10 (pure ASM.js) which works as a direct Web Worker
- * with simple postMessage/onmessage — no promise-based init required.
+ * Uses stockfish.js v10.0.2 (pure ASM.js, Emscripten-compiled Stockfish 10
+ * from 2018). Full Stockfish 10 at unlimited depth is ~3500 ELO, but
+ * depth-limited presets play far weaker.
  *
- * Configurable depth allows creating multiple strength presets:
- *   - Depth 1  ≈  ~800 ELO   (very weak)
- *   - Depth 3  ≈  ~1400 ELO  (beginner)
- *   - Depth 5  ≈  ~1800 ELO  (intermediate)
- *   - Depth 8  ≈  ~2200 ELO  (strong)
+ * Estimated ELO ranges (rough, not officially verified):
+ *   - Stockfish (weak)  Depth 3 + Skill Level 0   ≈  ~800–1000  (intentionally weakened)
+ *   - Stockfish (d1)    Depth 1 + Skill Level 20   ≈  ~1000–1400 (static eval + 1 ply)
+ *   - Stockfish (d3)    Depth 3 + Skill Level 20   ≈  ~1400–1800
+ *   - Stockfish (d5)    Depth 5 + Skill Level 20   ≈  ~1800–2200
+ *   - Stockfish (d8)    Depth 8 + Skill Level 20   ≈  ~2200–2600
+ *
+ * These are estimates only. Use the Tournament mode to compute relative
+ * ELO ratings between your engines and these benchmarks.
  */
 class StockfishEngine extends Player {
     constructor(color, depth = 5, label, skillLevel = 20) {
