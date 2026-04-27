@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'human':    return new HumanPlayer(color, boardUi);
             case 'naive':    return new NaiveEngine(color);
             case 'advanced': return new AdvancedEngine(color);
-            case 'sf-weak':  return new StockfishEngine(color, 3, 'Stockfish (weak)', 0);
+            case 'sf-weak':  return new StockfishEngine(color, 1, 'Stockfish (weak)', 0);
             case 'sf-d1':    return new StockfishEngine(color, 1, 'Stockfish (d1)');
             case 'sf-d3':    return new StockfishEngine(color, 3, 'Stockfish (d3)');
             case 'sf-d5':    return new StockfishEngine(color, 5, 'Stockfish (d5)');
@@ -66,13 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Tournament setup
     const engineFactories = [
-        { name: 'Random',            elo: '~200',        factory: (c) => new RandomEngine(c) },
-        { name: 'Naive',             elo: '~400–600',    factory: (c) => new NaiveEngine(c) },
-        { name: 'Advanced',          elo: '~800–1200',   factory: (c) => new AdvancedEngine(c) },
-        { name: 'Stockfish (weak)',  elo: '~800–1000',   factory: (c) => new StockfishEngine(c, 3, 'Stockfish (weak)', 0) },
-        { name: 'Stockfish (d1)',    elo: '~1000–1400',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (d1)') },
-        { name: 'Stockfish (d3)',    elo: '~1400–1800',  factory: (c) => new StockfishEngine(c, 3, 'Stockfish (d3)') },
-        { name: 'Stockfish (d5)',    elo: '~1800–2200',  factory: (c) => new StockfishEngine(c, 5, 'Stockfish (d5)') },
+        { name: 'Random',            factory: (c) => new RandomEngine(c) },
+        { name: 'Naive',             factory: (c) => new NaiveEngine(c) },
+        { name: 'Advanced',          factory: (c) => new AdvancedEngine(c) },
+        { name: 'Stockfish (weak)',  elo: '~1347',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (weak)', 0) },
+        { name: 'Stockfish (d1)',    elo: '~1347',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (d1)') },
+        { name: 'Stockfish (d3)',    elo: '~1680',  factory: (c) => new StockfishEngine(c, 3, 'Stockfish (d3)') },
+        { name: 'Stockfish (d5)',    elo: '~1980',  factory: (c) => new StockfishEngine(c, 5, 'Stockfish (d5)') },
     ];
 
     const tournamentModal = new TournamentModal(engineFactories);

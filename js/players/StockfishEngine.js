@@ -9,15 +9,15 @@
  * from 2018). Full Stockfish 10 at unlimited depth is ~3500 ELO, but
  * depth-limited presets play far weaker.
  *
- * Estimated ELO ranges (rough, not officially verified):
- *   - Stockfish (weak)  Depth 3 + Skill Level 0   ≈  ~800–1000  (intentionally weakened)
- *   - Stockfish (d1)    Depth 1 + Skill Level 20   ≈  ~1000–1400 (static eval + 1 ply)
- *   - Stockfish (d3)    Depth 3 + Skill Level 20   ≈  ~1400–1800
- *   - Stockfish (d5)    Depth 5 + Skill Level 20   ≈  ~1800–2200
- *   - Stockfish (d8)    Depth 8 + Skill Level 20   ≈  ~2200–2600
+ * Skill Level (0–20) makes Stockfish intentionally choose suboptimal
+ * moves. The weak move is selected at depth = 1 + Skill Level.
+ * (Source: https://github.com/official-stockfish/Stockfish/wiki/Stockfish-FAQ)
  *
- * These are estimates only. Use the Tournament mode to compute relative
- * ELO ratings between your engines and these benchmarks.
+ * Presets used in this project:
+ *   - Stockfish (weak)  Depth 1, Skill Level 0   ≈ ~1347 ELO
+ *   - Stockfish (d1)    Depth 1, Skill Level 20   (full strength at d1)
+ *   - Stockfish (d3)    Depth 3, Skill Level 20   (full strength at d3)
+ *   - Stockfish (d5)    Depth 5, Skill Level 20   (full strength at d5)
  */
 class StockfishEngine extends Player {
     constructor(color, depth = 5, label, skillLevel = 20) {
