@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'Random',            factory: (c) => new RandomEngine(c) },
         { name: 'Naive',             factory: (c) => new NaiveEngine(c) },
         { name: 'Advanced',          factory: (c) => new AdvancedEngine(c) },
-        { name: 'Stockfish (weak)',  elo: '~1347',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (weak)', 0) },
-        { name: 'Stockfish (d1)',    elo: '~1347',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (d1)') },
-        { name: 'Stockfish (d3)',    elo: '~1680',  factory: (c) => new StockfishEngine(c, 3, 'Stockfish (d3)') },
-        { name: 'Stockfish (d5)',    elo: '~1980',  factory: (c) => new StockfishEngine(c, 5, 'Stockfish (d5)') },
+        { name: 'Stockfish (weak)',  elo: '~1347',       factory: (c) => new StockfishEngine(c, 1, 'Stockfish (weak)', 0) },
+        { name: 'Stockfish (d1)',    elo: '~1700–2000',  factory: (c) => new StockfishEngine(c, 1, 'Stockfish (d1)') },
+        { name: 'Stockfish (d3)',    elo: '~2200–2400',  factory: (c) => new StockfishEngine(c, 3, 'Stockfish (d3)') },
+        { name: 'Stockfish (d5)',    elo: '~2500–2700',  factory: (c) => new StockfishEngine(c, 5, 'Stockfish (d5)') },
     ];
 
     const tournamentModal = new TournamentModal(engineFactories);

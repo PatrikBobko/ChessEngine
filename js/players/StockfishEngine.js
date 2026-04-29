@@ -15,9 +15,10 @@
  *
  * Presets used in this project:
  *   - Stockfish (weak)  Depth 1, Skill Level 0   ≈ ~1347 ELO
- *   - Stockfish (d1)    Depth 1, Skill Level 20   (full strength at d1)
- *   - Stockfish (d3)    Depth 3, Skill Level 20   (full strength at d3)
- *   - Stockfish (d5)    Depth 5, Skill Level 20   (full strength at d5)
+ *   - Stockfish (d1)    Depth 1, Skill Level 20   ≈ ~1700–2000 ELO (pure static eval)
+ *   - Stockfish (d3)    Depth 3, Skill Level 20   ≈ ~2200–2400 ELO (tactics + eval)
+ *   - Stockfish (d5)    Depth 5, Skill Level 20   ≈ ~2500–2700 ELO (GM level)
+ *   - Stockfish (d8)    Depth 8, Skill Level 20   ≈ ~2800+ ELO    (Super-GM level)
  */
 class StockfishEngine extends Player {
     constructor(color, depth = 5, label, skillLevel = 20) {
