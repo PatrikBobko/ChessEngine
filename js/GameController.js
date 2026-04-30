@@ -31,7 +31,16 @@ class GameController {
         if (this.blackPlayer) this.blackPlayer.abort();
 
         // If no FEN provided, load standard start
-        this.startingFen = fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+        let fenToLoad = fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+        if (fen) {
+            const parts = fen.trim().split(/\s+/);
+            if (parts.length === 4) {
+                fenToLoad = `${fen.trim()} 0 1`;
+            } else if (parts.length === 5) {
+                fenToLoad = `${fen.trim()} 1`;
+            }
+        }
+        this.startingFen = fenToLoad;
         this.moveHistory = [];
         this.currentPly = 0;
 
