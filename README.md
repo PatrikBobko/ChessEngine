@@ -2,7 +2,6 @@
 
 A complete browser-based Chess Workbench built from scratch with Vanilla JavaScript. This project serves as a testbed for developing and benchmarking custom chess AI engines. It features a modern Glassmorphism UI, drag-and-drop gameplay, move history navigation, and a headless tournament runner for empirical ELO calculation.
 
-*Note: Move generation and validation are handled by [chess.js](https://github.com/jhlywa/chess.js), allowing the core focus of this project to remain on **search algorithms, heuristic evaluation, and engine architecture.***
 
 ## ✨ Key Features
 
